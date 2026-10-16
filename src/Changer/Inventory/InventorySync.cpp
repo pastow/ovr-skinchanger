@@ -119,7 +119,6 @@ namespace
         ItemSockets::SetUnusual(*Item, Effect, ItemSockets::QualityUnique);
         FakeItems::Store(*Item);
         GcEmulator::SendItems({}, {*Item});
-        Log("Unusual fake %#llx effect %d", static_cast<unsigned long long>(ItemId), Effect);
     }
 
     void EnsureSubscribed()
@@ -141,11 +140,7 @@ namespace
             if (Type.type_id() == SoTypeEconItem)
                 Existing += Type.object_data_size();
         if (Existing == 0)
-        {
-            Log("SO cache subscribed skipped service %u version %llu, no econ items", Message.service_id(),
-                static_cast<unsigned long long>(Message.version()));
             return false;
-        }
 
         EnsureSubscribed();
         Started = true;
@@ -157,17 +152,13 @@ namespace
 
         std::set<std::uint32_t> Occupied = OccupiedSlots();
         CMsgSOCacheSubscribed::SubscribedType* Items = nullptr;
-        int Real = 0;
         for (auto& Type : *Message.mutable_objects())
         {
             if (Type.type_id() != SoTypeEconItem)
                 continue;
             Items = &Type;
             for (std::string& Data : *Type.mutable_object_data())
-            {
                 ReplaceReal(Data, Occupied);
-                ++Real;
-            }
         }
         if (!Items)
         {
@@ -180,7 +171,6 @@ namespace
             Items->add_object_data(Fake.SerializeAsString());
 
         Body = Message.SerializeAsString();
-        Log("SO cache subscribed rewritten service %u real %d fake %zu", Message.service_id(), Real, Fakes.size());
         return true;
     }
 
@@ -232,7 +222,6 @@ void InventorySync::Update()
     EnsureSubscribed();
     std::vector<CSOEconItem> Fakes = PreparedFakes();
     GcEmulator::SendItems(Fakes, {});
-    Log("Fake items pushed %zu", Fakes.size());
     Refresh();
 }
 
@@ -254,7 +243,6 @@ void InventorySync::Refresh()
     if (Modified.empty())
         return;
     GcEmulator::SendItems({}, Modified);
-    Log("Real items overridden %zu", Modified.size());
 }
 
 bool InventorySync::Rewrite(std::uint32_t EMsg, std::string& Body)

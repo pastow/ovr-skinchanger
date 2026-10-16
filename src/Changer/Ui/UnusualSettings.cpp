@@ -102,7 +102,6 @@ namespace
         BuildPicker(Header);
         SyncedItemId = 0;
 
-        Log("Unusual settings section added, valid %d", Section.IsValid());
 
         Title.Release();
         Header.Release();
@@ -126,7 +125,6 @@ namespace
         Picker.Release();
 
         SyncedItemId = ItemId;
-        Log("Unusual settings item %" PRIx64 ", effect %d", ItemId, EffectId);
     }
 }
 

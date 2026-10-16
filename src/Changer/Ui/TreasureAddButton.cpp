@@ -46,7 +46,6 @@ namespace
             std::vector<std::uint32_t> Defs;
             for (CEconItemDefinition* Item : Definition->BundleItems())
                 Defs.push_back(Item->DefIndex());
-            Log("Treasure add bundle %u (%u) -> %zu item(s)", Def, Definition->DefIndex(), Defs.size());
             if (!Defs.empty())
             {
                 ItemGrant::Grant(Defs);
@@ -54,7 +53,6 @@ namespace
             }
         }
 
-        Log("Treasure add def %u", Def);
         ItemGrant::Grant(Def);
     }
 

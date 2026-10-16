@@ -40,13 +40,11 @@ bool ItemGrant::Grant(const std::vector<std::uint32_t>& Defs)
             Item = *Existing;
         ItemStyles::UnlockAll(Item);
         Added.push_back(Item);
-        Log("Item grant def %u id %#llx", Def, static_cast<unsigned long long>(Item.id()));
     }
     if (Added.empty())
         return false;
 
     FakeItems::Store(Added);
     GcEmulator::SendItems(Added, {});
-    Log("Item grant %zu item(s)", Added.size());
     return true;
 }

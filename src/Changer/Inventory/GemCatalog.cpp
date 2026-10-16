@@ -115,5 +115,4 @@ void GemCatalog::EnsureGranted()
     if (Missing.empty())
         return;
     FakeItems::Store(Missing);
-    Log("Gem catalog granted %zu items", Missing.size());
 }

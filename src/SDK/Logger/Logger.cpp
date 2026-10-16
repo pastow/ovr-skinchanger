@@ -69,7 +69,7 @@ namespace
 
 bool Logger::Init()
 {
-    LogFile = CreateFileA(Paths::Resolve(LogFileName).c_str(), FILE_APPEND_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH, nullptr);
+    LogFile = CreateFileA(Paths::Resolve(LogFileName).c_str(), FILE_APPEND_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (LogFile == INVALID_HANDLE_VALUE)
         return false;
 

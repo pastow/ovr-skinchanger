@@ -24,8 +24,6 @@ namespace
         std::uint64_t TargetId = Target->ItemId();
         if (!FakeItems::IsFake(TargetId))
             return Result;
-        Log("Gem rule bypass target %#llx gem %#llx socket type %u result %d", static_cast<unsigned long long>(TargetId),
-            static_cast<unsigned long long>(Gem->ItemId()), SocketType, Result);
         return RuleOk;
     }
 }
@@ -57,6 +55,5 @@ bool GemRulesHook::Install()
         return false;
     }
 
-    Log("GemRules %#llx", static_cast<unsigned long long>(Target));
     return true;
 }

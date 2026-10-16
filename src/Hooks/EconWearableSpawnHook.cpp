@@ -36,9 +36,7 @@ namespace
             auto* View = Found && Found->HoldsPointer() ? static_cast<C_EconItemView*>(Found->Pointer()) : nullptr;
             if (View)
             {
-                CHandle Owner = static_cast<C_BaseEntity*>(Wearable)->OwnerEntity();
-                int OwnerIndex = Owner.IsValid() ? static_cast<int>(Owner.Index()) : -1;
-                if (auto Swap = WearableSwap::Find(View, OwnerIndex))
+                if (auto Swap = WearableSwap::Find(View))
                 {
                     C_EconItemView::Construct(FakeView);
                     FakeView->Initialize(Swap->DefIndex, Swap->AccountId, Swap->Style);

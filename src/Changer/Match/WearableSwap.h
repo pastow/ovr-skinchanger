@@ -15,5 +15,5 @@ namespace WearableSwap
         std::uint32_t AccountId = 0;
     };
 
-    std::optional<Replacement> Find(const C_EconItemView* View, int OwnerIndex);
+    std::optional<Replacement> Find(const C_EconItemView* View);
 }

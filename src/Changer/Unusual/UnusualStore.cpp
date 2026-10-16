@@ -42,7 +42,6 @@ namespace
             Start = End + 1;
         }
 
-        Log("Unusual store loaded, %zu items", Effects.size());
     }
 
     void EnsureLoaded()
@@ -83,7 +82,6 @@ void UnusualStore::Set(std::uint64_t ItemId, int EffectId)
         Effects.erase(ItemId);
     Save();
 
-    Log("Unusual %" PRIx64 " -> %d", ItemId, EffectId);
     for (Listener Callback : Listeners)
         Callback(ItemId, EffectId);
 }

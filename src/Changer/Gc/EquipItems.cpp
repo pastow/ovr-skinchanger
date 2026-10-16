@@ -83,7 +83,6 @@ bool EquipItems::OnRequest(const void* Data, std::uint32_t Size)
             if (Equip.item_id() != 0 && !FakeItems::IsFake(Equip.item_id()))
                 ClearFakeSlot(Equip.new_class(), Equip.new_slot(), 0, Modified);
         Flush(Modified);
-        Log("Equip real request, fakes cleared %zu", Modified.size());
         return false;
     }
 
@@ -94,10 +93,7 @@ bool EquipItems::OnRequest(const void* Data, std::uint32_t Size)
         ClearFakeSlot(Class, Slot, Equip.item_id(), Modified);
 
         if (Equip.item_id() == 0)
-        {
-            Log("Equip clear class %u slot %u", Class, Slot);
             continue;
-        }
 
         auto Item = FakeItems::Find(Equip.item_id());
         if (!Item)
@@ -112,8 +108,6 @@ bool EquipItems::OnRequest(const void* Data, std::uint32_t Size)
         if (Equip.style_index() != StyleUnchanged)
             Item->set_style(Equip.style_index());
         Modified[Item->id()] = *Item;
-        Log("Equip %#llx def %u class %u slot %u style %u", static_cast<unsigned long long>(Item->id()), Item->def_index(), Class, Slot,
-            Item->style());
     }
 
     Flush(Modified);

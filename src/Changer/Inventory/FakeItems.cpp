@@ -53,7 +53,6 @@ namespace
                 Items[Item.id()] = Item;
             Start = End + 1;
         }
-        Log("Fake items loaded, %zu items", Items.size());
     }
 
     void EnsureLoaded()

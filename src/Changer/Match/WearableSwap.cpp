@@ -18,7 +18,7 @@ namespace
     constexpr std::uint32_t LoadoutSlots = 32;
 }
 
-std::optional<WearableSwap::Replacement> WearableSwap::Find(const C_EconItemView* View, int OwnerIndex)
+std::optional<WearableSwap::Replacement> WearableSwap::Find(const C_EconItemView* View)
 {
     CEconItemSchema* Schema = CEconItemSchema::Get();
     ISteamUser* User = ISteamUser::Get();
@@ -34,23 +34,12 @@ std::optional<WearableSwap::Replacement> WearableSwap::Find(const C_EconItemView
 
     std::uint32_t Hero = RealDef->HeroId();
     std::uint32_t Slot = RealDef->LoadoutSlot();
-    if (OwnerIndex >= 0 && !NetSkins::IsOwnHero(OwnerIndex))
-    {
-        Log("Wearable skip def %u hero %u slot %u owner %d not local", Def, Hero, Slot, OwnerIndex);
-        return std::nullopt;
-    }
     C_DOTA_BaseNPC_Hero* LocalHero = C_DOTAPlayerController::LocalHero();
     std::uint32_t LocalHeroId = LocalHero ? LocalHero->HeroId() : 0;
     if (LocalHeroId && Hero != LocalHeroId)
-    {
-        Log("Wearable skip def %u hero %u slot %u local hero %u", Def, Hero, Slot, LocalHeroId);
         return std::nullopt;
-    }
     if (Account != 0 && Account != LocalAccount)
-    {
-        Log("Wearable skip def %u hero %u slot %u item %#llx account %u", Def, Hero, Slot, static_cast<unsigned long long>(View->ItemId()), Account);
         return std::nullopt;
-    }
 
     std::optional<Replacement> Result;
     CDOTAInventoryManager* Manager = CDOTAInventoryManager::Get();
@@ -74,10 +63,5 @@ std::optional<WearableSwap::Replacement> WearableSwap::Find(const C_EconItemView
         Result = Out;
     }
 
-    if (Result)
-        Log("Wearable def %u hero %u slot %u item %#llx account %u owner %d -> def %u style %u", Def, Hero, Slot,
-            static_cast<unsigned long long>(View->ItemId()), Account, OwnerIndex, Result->DefIndex, Result->Style);
-    else
-        Log("Wearable no fake def %u hero %u slot %u account %u", Def, Hero, Slot, Account);
     return Result;
 }

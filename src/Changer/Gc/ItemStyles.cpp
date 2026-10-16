@@ -38,7 +38,6 @@ bool ItemStyles::OnSetStyle(const void* Data, std::uint32_t Size)
         FakeItems::Store(*Item);
         GcEmulator::SendItems({}, {*Item});
         Response.set_response(CMsgClientToGCSetItemStyleResponse::k_SetStyle_Succeeded);
-        Log("Style %#llx def %u -> %u", static_cast<unsigned long long>(Item->id()), Item->def_index(), Request.style_index());
     }
     else
     {

@@ -43,7 +43,6 @@ bool Sockets::OnAddSocket(const void* Data, std::uint32_t Size)
         GcEmulator::SendItems({}, {*Item});
         Response.add_updated_socket_index(Socket);
         Response.set_response(CMsgAddSocketResponse::k_AddSocket_Succeeded);
-        Log("Socket added %#llx socket %u type %u", static_cast<unsigned long long>(Item->id()), Socket, RequiredType);
     }
     else
     {
@@ -92,8 +91,6 @@ bool Sockets::OnAddGem(const void* Data, std::uint32_t Size)
         FakeItems::Store(*Item);
         GcEmulator::SendItems({}, {*Item});
         Response.add_updated_socket_index(Socket);
-        Log("Gem %#llx def %u -> item %#llx socket %u", static_cast<unsigned long long>(Gem->id()), Gem->def_index(),
-            static_cast<unsigned long long>(ItemId), Socket);
     }
 
     Response.set_response(Ok ? CMsgAddItemToSocketResponse::k_AddGem_Succeeded : CMsgAddItemToSocketResponse::k_AddGem_Failed_FailedToAddGem);
@@ -135,7 +132,6 @@ bool Sockets::OnExtractGems(const void* Data, std::uint32_t Size)
         FakeItems::Store(*Item);
         GcEmulator::SendItems({}, {*Item});
         Response.set_response(CMsgExtractGemsResponse::k_ExtractGems_Succeeded);
-        Log("Gems extracted %#llx socket %u", static_cast<unsigned long long>(ItemId), Request.item_socket_id());
     }
     else
     {
