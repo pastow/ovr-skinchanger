@@ -2,4 +2,6 @@
 !/src/
 !/.gitignore
 !/LICENSE
+!/README.md
+!/assets/
 /src/Resource/Protobufs/
